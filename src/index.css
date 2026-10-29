@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel2: var(--panel-2);
+  --color-line: var(--line);
+  --color-line2: var(--line-2);
+  --color-txt: var(--txt);
+  --color-dim: var(--dim);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent2: var(--accent-2);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --font-display: "Chakra Petch", "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  --bg: #07080c;
+  --panel: #101219;
+  --panel-2: #171a23;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.16);
+  --txt: #eef0f6;
+  --dim: rgba(238, 240, 246, 0.56);
+  --faint: rgba(238, 240, 246, 0.3);
+  --accent: #ff9f45;
+  --accent-2: #6ee7ff;
+  --ok: #9ef01a;
+  --warn: #ffd166;
+  --bad: #ff4d6d;
+  --accent-rgb: 255, 159, 69;
+  --accent2-rgb: 110, 231, 255;
+  --radius: 14px;
+  --blur: 18px;
+  --ui: 1;
+  --wp-op: 0;
+  --wp-blur: 0px;
+  --wp-scale: 1;
+  --wp-rot: 0deg;
+  --wp-x: 50%;
+  --wp-y: 50%;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+input, textarea { -webkit-user-select: text; user-select: text; }
+
+::selection { background: rgba(var(--accent-rgb), 0.3); }
+
+.scroll-thin { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+.scroll-thin::-webkit-scrollbar { width: 7px; height: 7px; }
+.scroll-thin::-webkit-scrollbar-track { background: transparent; }
+.scroll-thin::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 99px; }
+.scroll-thin::-webkit-scrollbar-thumb:hover { background: rgba(var(--accent-rgb), 0.5); }
+
+/* ---------- surfaces ---------- */
+.surface {
+  background: color-mix(in srgb, var(--panel) calc(var(--panel-op, 92) * 1%), transparent);
+  backdrop-filter: blur(var(--blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(140%);
+  border: 1px solid var(--line);
+}
+.hairline { border: 1px solid var(--line); }
+.glow-accent { box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.35), 0 0 30px -8px rgba(var(--accent-rgb), 0.55); }
+.text-glow { text-shadow: 0 0 18px rgba(var(--accent-rgb), 0.55); }
+.grid-bg {
+  background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.noise-mask {
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* ---------- form controls ---------- */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 4px; border-radius: 99px; outline: none; cursor: pointer;
+  background: linear-gradient(to right, var(--accent) var(--pct, 50%), rgba(255,255,255,0.12) var(--pct, 50%));
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--txt); border: 3px solid var(--accent);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.8);
+  transition: transform 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+input[type="range"]::-moz-range-thumb {
+  width: 13px; height: 13px; border-radius: 50%; border: 3px solid var(--accent);
+  background: var(--txt); box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.8);
+}
+input[type="color"] {
+  -webkit-appearance: none; appearance: none;
+  border: 1px solid var(--line); border-radius: 10px; background: transparent; padding: 0; cursor: pointer;
+}
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 3px; }
+input[type="color"]::-webkit-color-swatch { border: none; border-radius: 7px; }
+
+.field {
+  width: 100%; padding: 9px 12px; border-radius: 10px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--line);
+  color: var(--txt); outline: none; font-size: 13px;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+}
+.field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.14); }
+.field::placeholder { color: var(--faint); }
+select.field option { background: var(--panel); color: var(--txt); }
+
+/* ---------- motion ---------- */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes spin-rev { to { transform: rotate(-360deg); } }
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes pulse-ring { 0% { transform: scale(0.85); opacity: 0.85; } 100% { transform: scale(1.9); opacity: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes slide-left { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes pop-in { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes shake { 10%,90% { transform: translateX(-2px); } 30%,70% { transform: translateX(3px); } 50% { transform: translateX(-3px); } }
+@keyframes sweep { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+@keyframes fall { to { transform: translateY(110vh); } }
+
+.anim-rise { animation: rise 0.42s cubic-bezier(0.19,1,0.22,1) both; }
+.anim-pop { animation: pop-in 0.22s cubic-bezier(0.19,1,0.22,1) both; }
+.anim-slide { animation: slide-left 0.3s cubic-bezier(0.19,1,0.22,1) both; }
+.anim-float { animation: floaty 5s ease-in-out infinite; }
+.anim-blink { animation: blink 1.6s ease-in-out infinite; }
+.anim-shake { animation: shake 0.4s ease; }
+.spin-slow { animation: spin-slow 18s linear infinite; }
+.spin-rev { animation: spin-rev 30s linear infinite; }
+
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.06s !important;
+}
+
+/* ---------- overlays ---------- */
+.fx-scan {
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.045) 0 1px, transparent 1px 3px);
+}
+.fx-crt {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.75) 100%);
+  box-shadow: inset 0 0 120px rgba(0,0,0,0.9);
+}
+.fx-grain {
+  background-image: radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px);
+  background-size: 3px 3px;
+  animation: grainshift 0.5s steps(3) infinite;
+}
+@keyframes grainshift {
+  0% { transform: translate(0,0); } 33% { transform: translate(-2px,1px); } 66% { transform: translate(1px,-2px); } 100% { transform: translate(0,0); }
+}
+
+.click-ripple {
+  position: absolute; width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--accent); transform: translate(-50%,-50%);
+  animation: rip 0.65s cubic-bezier(0.1,0.8,0.3,1) forwards;
+}
+@keyframes rip { to { transform: translate(-50%,-50%) scale(7); opacity: 0; border-width: 1px; } }
+.click-particle {
+  position: absolute; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 10px var(--accent);
+  transform: translate(-50%,-50%);
+  animation: part 0.85s cubic-bezier(0.1,0.8,0.3,1) forwards;
+}
+@keyframes part { to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity: 0; } }
+.float-text {
+  position: absolute; transform: translate(-50%,-50%);
+  font-family: var(--font-mono); font-weight: 700; font-size: 15px;
+  color: var(--accent); text-shadow: 0 0 14px rgba(var(--accent-rgb),0.8);
+  animation: floatup 0.95s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+@keyframes floatup { to { transform: translate(-50%,-190%); opacity: 0; } }
+
+.tabular { font-variant-numeric: tabular-nums; }
+.no-select { -webkit-user-select: none; user-select: none; }
+.drag-handle { touch-action: none; }
